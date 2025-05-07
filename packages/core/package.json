@@ -1,0 +1,12 @@
+{
+	"name": "@schemasset/core",
+	"version": "0.0.1",
+	"description": "",
+	"main": "",
+	"scripts": {
+		"build": "tsdown"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT"
+}
