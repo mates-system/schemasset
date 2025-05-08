@@ -1,0 +1,19 @@
+{
+  "name": "@schemasset/schema",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "keywords": [],
+  "main": "",
+  "scripts": {
+    "postbuild": "tsx scripts/postbuild.ts",
+    "build": "tsdown"
+  },
+  "devDependencies": {
+    "json-schema-to-typescript": "^15.0.4",
+    "tsx": "^4.19.4",
+    "zod": "^3.24.4",
+    "zod-to-json-schema": "^3.24.5"
+  }
+}

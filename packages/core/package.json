@@ -8,5 +8,10 @@
   "main": "",
   "scripts": {
     "build": "tsdown"
+  },
+  "dependencies": {
+    "@schemasset/schema": "workspace:*",
+    "@types/js-yaml": "^4.0.9",
+    "js-yaml": "^4.1.0"
   }
 }
