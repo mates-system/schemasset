@@ -1,0 +1,13 @@
+version: 1.0.0
+targetDir: ./src
+files:
+  - pattern: "pages/**/*.vue"
+    required: true
+  - pattern: "components/**/*.vue"
+    required: true
+  - pattern: "composables/**/*.ts"
+    required: false
+  - pattern: "server/**/*.ts"
+    required: false
+  - pattern: "assets/**/*"
+    required: false
