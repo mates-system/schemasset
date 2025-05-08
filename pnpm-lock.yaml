@@ -21,6 +21,16 @@ importers:
         specifier: ^0.11.1
         version: 0.11.1(typescript@5.8.3)
 
+  examples/nuxt:
+    dependencies:
+      nuxt:
+        specifier: ^3.11.1
+        version: 3.17.2(@parcel/watcher@2.5.1)(@types/node@22.15.16)(db0@0.3.2)(eslint@9.26.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rolldown@1.0.0-beta.8-commit.534fde3)(rollup@4.40.2)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.16)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
+    devDependencies:
+      '@schemasset/nuxt':
+        specifier: workspace:*
+        version: link:../../packages/nuxt
+
   packages/cli:
     devDependencies:
       '@schemasset/core':
@@ -50,18 +60,25 @@ importers:
 
   packages/nuxt:
     dependencies:
+      nuxt:
+        specifier: ^3.0.0
+        version: 3.17.2(@parcel/watcher@2.5.1)(@types/node@22.15.16)(db0@0.3.2)(eslint@9.26.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rolldown@1.0.0-beta.8-commit.534fde3)(rollup@4.40.2)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.16)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
+    devDependencies:
       '@nuxt/kit':
         specifier: ^3.11.1
         version: 3.17.2(magicast@0.3.5)
       '@schemasset/core':
         specifier: workspace:*
         version: link:../core
+      consola:
+        specifier: ^3.2.3
+        version: 3.4.2
       defu:
         specifier: ^6.1.4
         version: 6.1.4
-      nuxt:
-        specifier: ^3.0.0
-        version: 3.17.2(@parcel/watcher@2.5.1)(@types/node@22.15.16)(db0@0.3.2)(eslint@9.26.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rolldown@1.0.0-beta.8-commit.534fde3)(rollup@4.40.2)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.16)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
+      fast-glob:
+        specifier: ^3.3.3
+        version: 3.3.3
 
   packages/schema:
     devDependencies:

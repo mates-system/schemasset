@@ -31,9 +31,11 @@
   "peerDependencies": {
     "nuxt": "^3.0.0"
   },
-  "dependencies": {
+  "devDependencies": {
     "@nuxt/kit": "^3.11.1",
     "@schemasset/core": "workspace:*",
-    "defu": "^6.1.4"
+    "consola": "^3.2.3",
+    "defu": "^6.1.4",
+    "fast-glob": "^3.3.3"
   }
 }
