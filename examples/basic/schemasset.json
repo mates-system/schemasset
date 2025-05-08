@@ -1,13 +1,10 @@
 {
   "$schema": "../../packages/schema/dist/schema.json",
-  "targetDir": "./src",
+  "targetDir": "./dynamic-assets",
   "files": [
-    {
-      "pattern": "**/*.ts"
-    },
-    {
-      "pattern": "**/*.json",
-      "optional": true
-    }
+    { "pattern": "*/logo.png" },
+    { "pattern": "*/header-logo.png", "optional": true },
+    { "pattern": "*/favicon.ico" },
+    { "pattern": "*/og-image.png" }
   ]
 }

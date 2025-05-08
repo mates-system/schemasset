@@ -38,10 +38,6 @@ export function parse(options?: ParserOptions): Schema {
     );
   }
 
-  if (typeof parsedContent === "object" && parsedContent && !("version" in parsedContent)) {
-    parsedContent = { version: "1.0.0", ...parsedContent };
-  }
-
   const validationResult = schemaDef.safeParse(parsedContent);
   if (!validationResult.success) {
     throw new SchemaError(
