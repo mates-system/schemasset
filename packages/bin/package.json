@@ -1,12 +1,19 @@
 {
   "name": "@schemasset/bin",
+  "type": "module",
   "version": "0.0.1",
-  "description": "",
+  "description": "CLI tool for schemasset",
   "author": "",
   "license": "MIT",
-  "keywords": [],
-  "main": "",
+  "bin": {
+    "schemasset": "./dist/index.js"
+  },
   "scripts": {
     "build": "tsdown"
+  },
+  "dependencies": {
+    "@schemasset/core": "workspace:*",
+    "citty": "^0.1.6",
+    "consola": "^3.2.3"
   }
 }
