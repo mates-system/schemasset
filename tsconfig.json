@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022", "DOM"],
+    "baseUrl": ".",
     "module": "preserve",
+    "paths": {
+      "@schemasset/*": ["packages/*/src"]
+    },
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

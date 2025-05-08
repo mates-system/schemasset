@@ -8,5 +8,8 @@
   "main": "",
   "scripts": {
     "build": "tsdown"
+  },
+  "dependencies": {
+    "@schemasset/schema": "workspace:*"
   }
 }
