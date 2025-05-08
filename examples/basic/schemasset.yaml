@@ -1,7 +1,0 @@
-version: 1.0.0
-targetDir: ./src
-files:
-  - pattern: "**/*.ts"
-    required: true
-  - pattern: "**/*.json"
-    required: false

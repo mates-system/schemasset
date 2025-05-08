@@ -1,0 +1,13 @@
+{
+  "$schema": "../../packages/schema/dist/schema.json",
+  "targetDir": "./src",
+  "files": [
+    {
+      "pattern": "**/*.ts"
+    },
+    {
+      "pattern": "**/*.json",
+      "optional": true
+    }
+  ]
+}

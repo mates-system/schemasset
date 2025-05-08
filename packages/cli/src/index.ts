@@ -1,7 +1,8 @@
-import { defineCommand } from "citty";
+#!/usr/bin/env node
+import { defineCommand, runMain } from "citty";
 import { check } from "./commands/check.js";
 
-export default defineCommand({
+const main = defineCommand({
   meta: {
     name: "schemasset",
     version: "0.0.1",
@@ -11,3 +12,8 @@ export default defineCommand({
     check,
   },
 });
+
+// Run the CLI when this file is executed directly
+runMain(main);
+
+export default main;

@@ -5,7 +5,7 @@ import { glob } from "fast-glob";
 export interface LoaderResult {
   pattern: string;
   files: string[];
-  required: boolean;
+  optional: boolean;
 }
 
 export interface LoaderOptions {
@@ -27,7 +27,7 @@ export async function loadFiles(options: LoaderOptions): Promise<LoaderResult[]>
       return {
         pattern: file.pattern,
         files: matches.map(f => relative(baseDir, resolve(baseDir, f))),
-        required: file.required,
+        optional: file.optional,
       };
     }),
   );

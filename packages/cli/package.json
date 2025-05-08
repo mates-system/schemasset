@@ -11,7 +11,7 @@
   "scripts": {
     "build": "tsdown"
   },
-  "dependencies": {
+  "devDependencies": {
     "@schemasset/core": "workspace:*",
     "citty": "^0.1.6",
     "consola": "^3.2.3"

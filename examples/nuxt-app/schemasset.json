@@ -1,0 +1,24 @@
+{
+  "$schema": "../../packages/schema/dist/schema.json",
+  "targetDir": "./src",
+  "files": [
+    {
+      "pattern": "pages/**/*.vue"
+    },
+    {
+      "pattern": "components/**/*.vue"
+    },
+    {
+      "pattern": "composables/**/*.ts",
+      "optional": true
+    },
+    {
+      "pattern": "server/**/*.ts",
+      "optional": true
+    },
+    {
+      "pattern": "assets/**/*",
+      "optional": true
+    }
+  ]
+}

@@ -22,7 +22,7 @@ importers:
         version: 0.11.1(typescript@5.8.3)
 
   packages/cli:
-    dependencies:
+    devDependencies:
       '@schemasset/core':
         specifier: workspace:*
         version: link:../core

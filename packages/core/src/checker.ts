@@ -26,26 +26,23 @@ export function check(options: CheckOptions): CheckResult {
   const diagnostics: Diagnostic[] = [];
 
   for (const result of results) {
-    const { pattern, files, required } = result;
+    const { pattern, files, optional } = result;
 
     // Check if files were found
-    if (files.length === 0) {
-      const severity = required ? "error" : "warning";
-      const code = required ? "FILE_NOT_FOUND" : "PATTERN_NO_MATCH";
-
+    if (files.length === 0 && !optional) {
       diagnostics.push({
-        severity,
-        message: required
+        severity: "error",
+        message: !optional
           ? `Required pattern "${pattern}" did not match any files`
           : `Pattern "${pattern}" did not match any files`,
         pattern,
-        code,
+        code: "FILE_NOT_FOUND",
       });
       continue;
     }
 
     // Check if pattern matched empty set when files are required
-    if (required && files.some(f => f.trim() === "")) {
+    if (!optional && files.some(f => f.trim() === "")) {
       diagnostics.push({
         severity: "error",
         message: `Required pattern "${pattern}" matched empty or whitespace-only paths`,
