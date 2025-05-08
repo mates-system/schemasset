@@ -12,6 +12,7 @@
   "dependencies": {
     "@schemasset/schema": "workspace:*",
     "@types/js-yaml": "^4.0.9",
+    "fast-glob": "^3.3.3",
     "js-yaml": "^4.1.0"
   }
 }
