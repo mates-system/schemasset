@@ -27,7 +27,7 @@ export const schemaDef: z.ZodObject<{
   targetDir: z.ZodString;
   files: z.ZodArray<typeof schemaDefFile>;
 }> = z.object({
-  '$schema': z.string().optional(),
+  $schema: z.string().optional(),
   targetDir: z.string().min(1, "Target directory must not be empty"),
   files: z.array(schemaDefFile).min(1, "At least one file pattern must be specified"),
 }).strict();
