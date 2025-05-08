@@ -1,17 +1,21 @@
 {
-	"name": "schemasset",
-	"version": "0.0.1",
-	"packageManager": "pnpm@10.9.0",
-	"type": "module",
-	"description": "",
-	"main": "",
-	"scripts": {
-		"build": "pnpm run --filter=\"./packages/*\" build"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "MIT",
-	"devDependencies": {
-		"tsdown": "^0.11.1"
-	}
+  "name": "schemasset",
+  "type": "module",
+  "version": "0.0.1",
+  "packageManager": "pnpm@10.9.0",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "keywords": [],
+  "main": "",
+  "scripts": {
+    "build": "pnpm run --filter=\"./packages/*\" build",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.13.0",
+    "eslint": "^9.26.0",
+    "tsdown": "^0.11.1"
+  }
 }

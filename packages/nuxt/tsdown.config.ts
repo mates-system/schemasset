@@ -1,4 +1,4 @@
-import { UserConfig, UserConfigFn } from "tsdown";
+import type { UserConfig, UserConfigFn } from "tsdown";
 import { config } from "../../tsdown.config.js";
 
 const _default_1: UserConfig | UserConfigFn = config();

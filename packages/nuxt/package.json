@@ -1,12 +1,12 @@
 {
-	"name": "@schemasset/nuxt",
-	"version": "0.0.1",
-	"description": "",
-	"main": "",
-	"scripts": {
-		"build": "tsdown"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "MIT"
+  "name": "@schemasset/nuxt",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "keywords": [],
+  "main": "",
+  "scripts": {
+    "build": "tsdown"
+  }
 }
