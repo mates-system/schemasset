@@ -10,5 +10,5 @@ export default antfu({
   },
 })
   .append({
-    ignores: ["node_modules", "dist"],
+    ignores: ["node_modules", "dist", "examples"],
   });
