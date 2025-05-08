@@ -10,6 +10,8 @@
     "build": "tsdown"
   },
   "dependencies": {
-    "@schemasset/schema": "workspace:*"
+    "@schemasset/schema": "workspace:*",
+    "@types/js-yaml": "^4.0.9",
+    "js-yaml": "^4.1.0"
   }
 }
