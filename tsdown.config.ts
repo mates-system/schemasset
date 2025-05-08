@@ -1,8 +1,5 @@
 import type { Options, UserConfig, UserConfigFn } from "tsdown";
-import {
-  defineConfig,
-
-} from "tsdown";
+import { defineConfig } from "tsdown";
 
 export function config(options: Options = {}): UserConfig | UserConfigFn {
   return defineConfig({
@@ -14,5 +11,6 @@ export function config(options: Options = {}): UserConfig | UserConfigFn {
   });
 }
 
-const _default_1: UserConfig | UserConfigFn = config();
-export default _default_1;
+const rootConfig: UserConfig | UserConfigFn = config();
+
+export default rootConfig;

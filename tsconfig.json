@@ -1,26 +1,20 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "preserve",
     "strict": true,
-    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
-    "esModuleInterop": true,
+    "outDir": "types",
     "isolatedDeclarations": true,
+    "erasableSyntaxOnly": true,
     "skipLibCheck": true
   },
   "include": [
     "packages"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
   ]
 }
