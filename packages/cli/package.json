@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@schemasset/core": "workspace:*",
+    "@schemasset/utils": "workspace:*",
     "citty": "^0.1.6"
   }
 }

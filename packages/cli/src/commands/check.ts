@@ -1,7 +1,7 @@
 import { exit } from "node:process";
 import { check as checkFiles, loadFiles, parse } from "@schemasset/core";
+import { logger } from "@schemasset/utils";
 import { defineCommand } from "citty";
-import consola from "consola";
 
 export const check = defineCommand({
   meta: {
@@ -41,8 +41,8 @@ export const check = defineCommand({
 
       // Output diagnostics
       for (const diagnostic of diagnostics) {
-        const logger = diagnostic.severity === "error" ? consola.error : consola.warn;
-        logger(`[${diagnostic.code}] ${diagnostic.message}`);
+        const logMethod = diagnostic.severity === "error" ? logger.error : logger.warn;
+        logMethod.call(logger, `[${diagnostic.code}] ${diagnostic.message}`);
       }
 
       // Exit with appropriate code
@@ -51,7 +51,7 @@ export const check = defineCommand({
       }
     }
     catch (error) {
-      consola.error(error instanceof Error ? error.message : String(error));
+      logger.error(error instanceof Error ? error.message : String(error));
       exit(1);
     }
   },

@@ -6,7 +6,10 @@ import { promises as fs } from "node:fs";
 import { dirname, join } from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
-import consola from "consola";
+import { createLogger } from "@schemasset/utils";
+
+// Create a logger for testing
+const logger = createLogger({ prefix: "test" });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = join(__dirname, "..");
@@ -40,12 +43,12 @@ async function main(updateSnapshot: boolean): Promise<void> {
   await fs.mkdir(SNAPSHOTS_DIR, { recursive: true });
 
   const exampleDir = join(EXAMPLES_DIR);
-  consola.log(`\n🧪 Testing example: ${exampleDir}`);
+  logger.log(`\n🧪 Testing example: ${exampleDir}`);
 
   try {
   // For basic example, run the CLI check command
     const command = `cd ${exampleDir} && node ${BIN} check`;
-    consola.log(`Running: ${command}`);
+    logger.log(`Running: ${command}`);
     const { stdout, stderr } = await runCommand(command, exampleDir);
 
     // Save snapshot
@@ -55,15 +58,15 @@ async function main(updateSnapshot: boolean): Promise<void> {
     // Check if snapshot exists
     const existingSnapshot = await fs.readFile(snapshotFile, "utf-8");
     if (existingSnapshot.trim() !== content.trim()) {
-      consola.log(`❌ Snapshot mismatch`);
-      consola.log("Expected:");
-      consola.log(existingSnapshot);
-      consola.log("Received:");
-      consola.log(content);
+      logger.error(`Snapshot mismatch`);
+      logger.log("Expected:");
+      logger.log(existingSnapshot);
+      logger.log("Received:");
+      logger.log(content);
       process.exit(1);
     }
     else {
-      consola.log(`✅ Snapshot match`);
+      logger.success(`Snapshot match`);
     }
   }
   catch (e) {
@@ -73,22 +76,22 @@ async function main(updateSnapshot: boolean): Promise<void> {
       const content = `STDOUT:\n${stdout}\nSTDERR:\n${stderr}`;
 
       if (updateSnapshot) {
-        consola.log(`📸 Updating snapshot`);
+        logger.info(`📸 Updating snapshot`);
         await fs.writeFile(snapshotFile, content);
-        consola.log("\n✨ All tests completed successfully");
+        logger.success("\n✨ All tests completed successfully");
       }
       else {
         const existingSnapshot = await fs.readFile(snapshotFile, "utf-8");
         if (existingSnapshot.trim() !== content.trim()) {
-          consola.log(`❌ Snapshot mismatch`);
-          consola.log("Expected:");
-          consola.log(existingSnapshot);
-          consola.log("Received:");
-          consola.log(content);
+          logger.error(`Snapshot mismatch`);
+          logger.log("Expected:");
+          logger.log(existingSnapshot);
+          logger.log("Received:");
+          logger.log(content);
           process.exit(1);
         }
         else {
-          consola.log(`✅ No changes to snapshot`);
+          logger.success(`No changes to snapshot`);
         }
       }
     }

@@ -7,7 +7,10 @@ import process from "node:process";
 
 import { defineNuxtModule } from "@nuxt/kit";
 import { check, loadFiles, parse } from "@schemasset/core";
-import consola from "consola";
+import { createLogger } from "@schemasset/utils";
+
+// Create a logger with a specific prefix for this module
+const logger = createLogger({ prefix: "@schemasset/nuxt" });
 
 export interface ModuleOptions {
   /**
@@ -64,7 +67,7 @@ export default defineNuxtModule<ModuleOptions>({
     },
   },
   setup(options, nuxt) {
-    consola.info("[@schemasset/nuxt] Setting up schema asset validation");
+    logger.info("Setting up schema asset validation");
 
     if (options.checkOnBuild) {
       nuxt.hook("build:before", async () => {
@@ -74,7 +77,7 @@ export default defineNuxtModule<ModuleOptions>({
           }
         }
         catch (error) {
-          consola.error(`[@schemasset/nuxt] Error during schema validation: ${error instanceof Error ? error.message : String(error)}`);
+          logger.error(`Error during schema validation: ${error instanceof Error ? error.message : String(error)}`);
           if (options.failOnError) {
             throw error;
           }
@@ -95,20 +98,20 @@ export default defineNuxtModule<ModuleOptions>({
           // Generate
           const subdirPath = resolve(baseDir, options.build.subdir);
           if (!existsSync(subdirPath)) {
-            consola.warn(`[@schemasset/nuxt] Subdirectory to process for build not found: ${subdirPath}. Skipping asset copying for this path.`);
+            logger.warn(`Subdirectory to process for build not found: ${subdirPath}. Skipping asset copying for this path.`);
             return;
           }
-          consola.info(`[@schemasset/nuxt] Configuring assets from '${subdirPath}' to be served at '/${options.build.outDir}'`);
+          logger.info(`Configuring assets from '${subdirPath}' to be served at '/${options.build.outDir}'`);
           nitro.options.publicAssets.push({
             dir: subdirPath,
             baseURL: options.build.outDir,
             maxAge: 0,
           });
 
-          consola.success(`[@schemasset/nuxt] Assets from subdirectory '${options.build.subdir}' will be available under '/${options.build.outDir}'`);
+          logger.success(`Assets from subdirectory '${options.build.subdir}' will be available under '/${options.build.outDir}'`);
         }
         catch (error) {
-          consola.error(`[@schemasset/nuxt] Error preparing asset processing: ${error instanceof Error ? error.message : String(error)}`);
+          logger.error(`Error preparing asset processing: ${error instanceof Error ? error.message : String(error)}`);
         }
       });
 
@@ -118,22 +121,22 @@ export default defineNuxtModule<ModuleOptions>({
         checkResult: CheckResult | null;
       }> {
         if (!options.schema) {
-          consola.warn("[@schemasset/nuxt] No schema configuration found");
+          logger.warn("No schema configuration found");
           return { schema: null, baseDir: "", checkResult: null };
         }
 
         const schema = options.schema ?? parse({ schemaFile: options.schemaPath }).schema;
 
         // Log schema configuration
-        consola.info("[@schemasset/nuxt] Using schema configuration:");
-        consola.log(`- Target directory: ${schema.targetDir}`);
-        consola.log(`- File patterns: ${schema.files.length}`);
+        logger.info("Using schema configuration:");
+        logger.log(`- Target directory: ${schema.targetDir}`);
+        logger.log(`- File patterns: ${schema.files.length}`);
 
         const baseDir = resolve(nuxt.options.rootDir, schema.targetDir);
 
         // Check if target directory exists
         if (!existsSync(baseDir)) {
-          consola.error(`[@schemasset/nuxt] Target directory not found: ${baseDir}`);
+          logger.error(`Target directory not found: ${baseDir}`);
           return { schema, baseDir, checkResult: null };
         }
 
@@ -143,12 +146,12 @@ export default defineNuxtModule<ModuleOptions>({
 
         // Log diagnostic information
         for (const diagnostic of checkResult.diagnostics) {
-          const logger = diagnostic.severity === "error" ? consola.error : consola.warn;
-          logger(`[${diagnostic.code}] ${diagnostic.message}`);
+          const logMethod = diagnostic.severity === "error" ? logger.error : logger.warn;
+          logMethod.call(logger, `[${diagnostic.code}] ${diagnostic.message}`);
         }
 
         if (checkResult.hasError) {
-          consola.error(`[@schemasset/nuxt] Schema validation failed`);
+          logger.error(`Schema validation failed`);
           if (process.env.NODE_ENV === "production") {
             process.exit(1);
           }
