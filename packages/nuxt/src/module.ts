@@ -1,7 +1,10 @@
+import type { CheckResult } from "@schemasset/core";
 import type { SchemaDef } from "@schemasset/schema";
+
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import process from "node:process";
+
 import { defineNuxtModule } from "@nuxt/kit";
 import { check, loadFiles, parse } from "@schemasset/core";
 import consola from "consola";
@@ -63,47 +66,11 @@ export default defineNuxtModule<ModuleOptions>({
   setup(options, nuxt) {
     consola.info("[@schemasset/nuxt] Setting up schema asset validation");
 
-    // Add plugin only during build
     if (options.checkOnBuild) {
       nuxt.hook("build:before", async () => {
         try {
-          if (!options.schema) {
-            consola.warn("[@schemasset/nuxt] No schema configuration found");
-            return;
-          }
-
-          const schema = options.schema ?? parse({ schemaFile: options.schemaPath }).schema;
-
-          // Log schema configuration
-          consola.log("[@schemasset/nuxt] Using schema configuration:");
-          consola.log(`- Target directory: ${schema.targetDir}`);
-          consola.log(`- File patterns: ${schema.files.length}`);
-
-          // Basic validation only in development mode
           if (nuxt.options.dev) {
-            const baseDir = resolve(nuxt.options.rootDir, schema.targetDir);
-            consola.log(`[@schemasset/nuxt] Checking assets in: ${baseDir}`);
-
-            // Check if target directory exists
-            if (!existsSync(baseDir)) {
-              consola.error(`[@schemasset/nuxt] Target directory not found: ${baseDir}`);
-              return;
-            }
-
-            const files = await loadFiles({ baseDir: schema.targetDir, files: schema.files });
-
-            // Perform schema validation using core checker
-            const { diagnostics, hasError } = check({ results: files });
-
-            for (const diagnostic of diagnostics) {
-              const logger = diagnostic.severity === "error" ? consola.error : consola.warn;
-              logger(`[${diagnostic.code}] ${diagnostic.message}`);
-            }
-
-            if (hasError) {
-              consola.error(`[@schemasset/nuxt] Schema validation failed`);
-              throw new Error("Schema validation failed");
-            }
+            await validateSchema();
           }
         }
         catch (error) {
@@ -121,23 +88,9 @@ export default defineNuxtModule<ModuleOptions>({
             return;
           }
 
-          const schema = options.schema ?? parse({ schemaFile: options.schemaPath }).schema;
-
-          const baseDir = resolve(nuxt.options.rootDir, schema.targetDir);
-
-          // Check
-          const files = await loadFiles({ baseDir: schema.targetDir, files: schema.files });
-          const { diagnostics, hasError } = check({ results: files });
-          for (const diagnostic of diagnostics) {
-            const logger = diagnostic.severity === "error" ? consola.error : consola.warn;
-            logger(`[${diagnostic.code}] ${diagnostic.message}`);
-          }
-          if (hasError) {
-            consola.error(`[@schemasset/nuxt] Schema validation failed`);
-            if (process.env.NODE_ENV === "production") {
-              process.exit(1);
-            }
-          }
+          const { schema, baseDir } = await validateSchema();
+          if (!schema)
+            return;
 
           // Generate
           const subdirPath = resolve(baseDir, options.build.subdir);
@@ -158,6 +111,52 @@ export default defineNuxtModule<ModuleOptions>({
           consola.error(`[@schemasset/nuxt] Error preparing asset processing: ${error instanceof Error ? error.message : String(error)}`);
         }
       });
+
+      async function validateSchema(): Promise<{
+        schema: SchemaDef | null;
+        baseDir: string;
+        checkResult: CheckResult | null;
+      }> {
+        if (!options.schema) {
+          consola.warn("[@schemasset/nuxt] No schema configuration found");
+          return { schema: null, baseDir: "", checkResult: null };
+        }
+
+        const schema = options.schema ?? parse({ schemaFile: options.schemaPath }).schema;
+
+        // Log schema configuration
+        consola.info("[@schemasset/nuxt] Using schema configuration:");
+        consola.log(`- Target directory: ${schema.targetDir}`);
+        consola.log(`- File patterns: ${schema.files.length}`);
+
+        const baseDir = resolve(nuxt.options.rootDir, schema.targetDir);
+
+        // Check if target directory exists
+        if (!existsSync(baseDir)) {
+          consola.error(`[@schemasset/nuxt] Target directory not found: ${baseDir}`);
+          return { schema, baseDir, checkResult: null };
+        }
+
+        // Load files and validate
+        const files = await loadFiles({ baseDir: schema.targetDir, files: schema.files });
+        const checkResult = check({ results: files });
+
+        // Log diagnostic information
+        for (const diagnostic of checkResult.diagnostics) {
+          const logger = diagnostic.severity === "error" ? consola.error : consola.warn;
+          logger(`[${diagnostic.code}] ${diagnostic.message}`);
+        }
+
+        if (checkResult.hasError) {
+          consola.error(`[@schemasset/nuxt] Schema validation failed`);
+          if (process.env.NODE_ENV === "production") {
+            process.exit(1);
+          }
+          throw new Error("Schema validation failed");
+        }
+
+        return { schema, baseDir, checkResult };
+      }
     }
   },
 });
