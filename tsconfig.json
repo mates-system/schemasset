@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM"],
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM"],
     "baseUrl": ".",
-    "module": "preserve",
+    "moduleResolution": "node",
     "paths": {
       "@schemasset/*": ["packages/*/src"]
     },
@@ -14,8 +14,11 @@
     "declarationMap": true,
     "emitDeclarationOnly": true,
     "outDir": "types",
+    "esModuleInterop": true,
     "isolatedDeclarations": true,
+    "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
+    "skipDefaultLibCheck": true,
     "skipLibCheck": true
   },
   "include": [
