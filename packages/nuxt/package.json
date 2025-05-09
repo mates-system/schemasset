@@ -34,7 +34,7 @@
   "devDependencies": {
     "@nuxt/kit": "^3.11.1",
     "@schemasset/core": "workspace:*",
-    "consola": "^3.2.3",
+    "@schemasset/utils": "workspace:*",
     "defu": "^6.1.4",
     "fast-glob": "^3.3.3"
   }

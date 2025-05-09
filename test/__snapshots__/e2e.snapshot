@@ -1,0 +1,5 @@
+STDOUT:
+
+STDERR:
+ERROR: [SUBDIR_MISSING_PATTERN] Required pattern "*/favicon.ico" is missing in subdirectory "domain-b"
+ERROR: [SUBDIR_MISSING_PATTERN] Required pattern "*/og-image.png" is missing in subdirectory "domain-c"
