@@ -44,6 +44,7 @@ You can define required file structures for each domain in a schema definition f
 
 ```json
 {
+  "$schema": "node_modules/@schemasset/schema/dist/schema.json",
   "targetDir": "./dynamic-assets",
   "files": [
     { "pattern": "*/logo.png" },

@@ -3,14 +3,24 @@
   "type": "module",
   "version": "0.0.1",
   "description": "Nuxt module for schemasset - schema-based asset file validation",
-  "author": "",
+  "author": "Mates System",
   "license": "MIT",
+  "homepage": "https://github.com/mates-system/schemasset/tree/main/packages/nuxt#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mates-system/schemasset"
+  },
+  "bugs": {
+    "url": "https://github.com/mates-system/schemasset/issues"
+  },
   "keywords": [
     "nuxt",
     "nuxt-module",
     "asset",
     "schema",
-    "validation"
+    "validation",
+    "file-structure",
+    "static-assets"
   ],
   "exports": {
     ".": {
@@ -31,11 +41,12 @@
   "peerDependencies": {
     "nuxt": "^3.0.0"
   },
-  "devDependencies": {
-    "@nuxt/kit": "^3.11.1",
+  "dependencies": {
     "@schemasset/core": "workspace:*",
-    "@schemasset/utils": "workspace:*",
     "defu": "^6.1.4",
     "fast-glob": "^3.3.3"
+  },
+  "devDependencies": {
+    "@nuxt/kit": "^3.11.1"
   }
 }
