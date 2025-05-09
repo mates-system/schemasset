@@ -3,7 +3,7 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import process from "node:process";
 import { defineNuxtModule } from "@nuxt/kit";
-import { check, loadFiles } from "@schemasset/core";
+import { check, loadFiles, parse } from "@schemasset/core";
 import consola from "consola";
 
 export interface ModuleOptions {
@@ -12,6 +12,12 @@ export interface ModuleOptions {
    * - object: Inline schema definition
    */
   schema?: SchemaDef;
+
+  /**
+   * Schema configuration
+   * - string: Path to the schema file
+   */
+  schemaPath?: string;
 
   /**
    * Whether to check assets during build
@@ -66,16 +72,16 @@ export default defineNuxtModule<ModuleOptions>({
             return;
           }
 
-          const targetSchema = options.schema;
+          const schema = options.schema ?? parse({ schemaFile: options.schemaPath }).schema;
 
           // Log schema configuration
           consola.log("[@schemasset/nuxt] Using schema configuration:");
-          consola.log(`- Target directory: ${targetSchema.targetDir}`);
-          consola.log(`- File patterns: ${targetSchema.files.length}`);
+          consola.log(`- Target directory: ${schema.targetDir}`);
+          consola.log(`- File patterns: ${schema.files.length}`);
 
           // Basic validation only in development mode
           if (nuxt.options.dev) {
-            const baseDir = resolve(nuxt.options.rootDir, targetSchema.targetDir);
+            const baseDir = resolve(nuxt.options.rootDir, schema.targetDir);
             consola.log(`[@schemasset/nuxt] Checking assets in: ${baseDir}`);
 
             // Check if target directory exists
@@ -84,7 +90,7 @@ export default defineNuxtModule<ModuleOptions>({
               return;
             }
 
-            const files = await loadFiles({ baseDir: targetSchema.targetDir, files: targetSchema.files });
+            const files = await loadFiles({ baseDir: schema.targetDir, files: schema.files });
 
             // Perform schema validation using core checker
             const { diagnostics, hasError } = check({ results: files });
@@ -115,11 +121,12 @@ export default defineNuxtModule<ModuleOptions>({
             return;
           }
 
-          const targetSchema = options.schema;
-          const baseDir = resolve(nuxt.options.rootDir, targetSchema.targetDir);
+          const schema = options.schema ?? parse({ schemaFile: options.schemaPath }).schema;
+
+          const baseDir = resolve(nuxt.options.rootDir, schema.targetDir);
 
           // Check
-          const files = await loadFiles({ baseDir: targetSchema.targetDir, files: targetSchema.files });
+          const files = await loadFiles({ baseDir: schema.targetDir, files: schema.files });
           const { diagnostics, hasError } = check({ results: files });
           for (const diagnostic of diagnostics) {
             const logger = diagnostic.severity === "error" ? consola.error : consola.warn;
