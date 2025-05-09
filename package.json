@@ -1,13 +1,26 @@
 {
   "name": "schemasset",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "packageManager": "pnpm@10.9.0",
-  "description": "",
-  "author": "",
+  "description": "A schema-based tool for asset file validation",
+  "author": "ubugeeei",
   "license": "MIT",
-  "keywords": [],
-  "main": "",
+  "homepage": "https://github.com/mates-system/schemasset#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mates-system/schemasset"
+  },
+  "bugs": {
+    "url": "https://github.com/mates-system/schemasset/issues"
+  },
+  "keywords": [
+    "asset",
+    "schema",
+    "validation",
+    "file-structure",
+    "static-assets"
+  ],
   "engines": {
     "node": ">=22.0.0"
   },
@@ -15,7 +28,15 @@
     "build": "pnpm run --filter=\"./packages/*\" build",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "test": "NO_COLOR=1 tsx test/e2e"
+    "test": "NO_COLOR=1 tsx test/e2e",
+    "release": "pnpm build && pnpm publish:packages",
+    "publish:packages": "pnpm -r publish --access public --no-git-checks",
+    "version:major": "pnpm dlx changelogen@latest --release --major",
+    "version:minor": "pnpm dlx changelogen@latest --release --minor",
+    "version:patch": "pnpm dlx changelogen@latest --release --patch",
+    "prepublish": "pnpm lint && pnpm test && pnpm build",
+    "publish:dry": "pnpm prepublish && pnpm -r publish --dry-run",
+    "publish:all": "pnpm prepublish && pnpm -r publish --access public"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.0",

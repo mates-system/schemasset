@@ -2,12 +2,30 @@
   "name": "@schemasset/cli",
   "type": "module",
   "version": "0.0.1",
-  "description": "CLI tool for schemasset",
-  "author": "",
+  "description": "CLI tool for schemasset - schema-based asset file validation",
+  "author": "ubugeeei",
   "license": "MIT",
+  "homepage": "https://github.com/mates-system/schemasset/tree/main/packages/cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mates-system/schemasset"
+  },
+  "bugs": {
+    "url": "https://github.com/mates-system/schemasset/issues"
+  },
+  "keywords": [
+    "asset",
+    "schema",
+    "validation",
+    "file-structure",
+    "cli"
+  ],
   "bin": {
     "schemasset": "./dist/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsdown"
   },

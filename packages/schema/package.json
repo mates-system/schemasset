@@ -1,19 +1,50 @@
 {
   "name": "@schemasset/schema",
+  "type": "module",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Schema definitions for schemasset - schema-based asset file validation",
+  "author": "ubugeeei",
   "license": "MIT",
-  "keywords": [],
-  "main": "",
+  "homepage": "https://github.com/mates-system/schemasset/tree/main/packages/schema#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mates-system/schemasset"
+  },
+  "bugs": {
+    "url": "https://github.com/mates-system/schemasset/issues"
+  },
+  "keywords": [
+    "asset",
+    "schema",
+    "validation",
+    "file-structure",
+    "static-assets"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./dist/schema.json": "./dist/schema.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "postbuild": "tsx scripts/postbuild.ts",
     "build": "tsdown"
   },
+  "dependencies": {
+    "zod": "^3.24.4"
+  },
   "devDependencies": {
     "json-schema-to-typescript": "^15.0.4",
     "tsx": "^4.19.4",
-    "zod": "^3.24.4",
     "zod-to-json-schema": "^3.24.5"
   }
 }
