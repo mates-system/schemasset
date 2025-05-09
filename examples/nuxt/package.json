@@ -3,11 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "postinstall": "nuxi prepare",
-    "dev": "nuxt dev",
-    "build": "nuxt build",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "dev": "nuxi prepare && nuxt dev",
+    "build": "nuxi prepare && nuxt build",
+    "generate": "nuxi prepare && nuxt generate",
+    "preview": "nuxi prepare && nuxt preview"
   },
   "dependencies": {
     "nuxt": "^3.11.1"
