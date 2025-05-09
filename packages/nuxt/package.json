@@ -1,12 +1,41 @@
 {
   "name": "@schemasset/nuxt",
+  "type": "module",
   "version": "0.0.1",
-  "description": "",
+  "description": "Nuxt module for schemasset - schema-based asset file validation",
   "author": "",
   "license": "MIT",
-  "keywords": [],
-  "main": "",
+  "keywords": [
+    "nuxt",
+    "nuxt-module",
+    "asset",
+    "schema",
+    "validation"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "module": "./dist/module.mjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsdown"
+  },
+  "peerDependencies": {
+    "nuxt": "^3.0.0"
+  },
+  "devDependencies": {
+    "@nuxt/kit": "^3.11.1",
+    "@schemasset/core": "workspace:*",
+    "consola": "^3.2.3",
+    "defu": "^6.1.4",
+    "fast-glob": "^3.3.3"
   }
 }

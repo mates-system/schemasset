@@ -62,6 +62,14 @@ npx schemasset check
 
 In this example, errors would be shown because domain-b is missing favicon.ico and domain-c is missing og-image.png.
 
+## 🔌 Integrations
+
+### Nuxt Module
+
+`@schemasset/nuxt` allows you to integrate schema-based asset validation directly into your Nuxt projects. This module provides seamless verification of assets during the build process and can publish specific asset subdirectories.
+
+[Read more about the Nuxt module](./packages/nuxt/README.md)
+
 ## 📦 Installation
 
 ```bash
