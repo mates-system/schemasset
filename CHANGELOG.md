@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v0.0.7
+
+[compare changes](https://github.com/mates-system/schemasset/compare/v0.0.6...v0.0.7)
+
+### 🚀 Enhancements
+
+- Process exit when validation error on production build ([bebaa2d](https://github.com/mates-system/schemasset/commit/bebaa2d))
+
+### 🩹 Fixes
+
+- Generated gitignore spasing ([#12](https://github.com/mates-system/schemasset/pull/12))
+
+### 🏡 Chore
+
+- **release:** V0.0.6 ([eee630e](https://github.com/mates-system/schemasset/commit/eee630e))
+- **deps-dev:** Bump tsdown from 0.5.10 to 0.11.2 ([#11](https://github.com/mates-system/schemasset/pull/11))
+
+### ❤️ Contributors
+
+- Ubugeeei <ubuge1122@gmail.com>
+
 ## v0.0.6
 
 
