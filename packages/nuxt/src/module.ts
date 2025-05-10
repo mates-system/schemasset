@@ -1,7 +1,7 @@
 import type { CheckResult } from "@schemasset/core";
 import type { SchemaDef } from "@schemasset/schema";
 
-import { appendFileSync, existsSync, readdirSync, readFileSync, rmdirSync, statSync, unlinkSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, rmdirSync, statSync, unlinkSync, writeFileSync } from "node:fs";
 import { basename, join, relative, resolve } from "node:path";
 import process from "node:process";
 
@@ -209,9 +209,6 @@ export default defineNuxtModule<ModuleOptions>({
 
       const gitignorePath = resolve(nuxt.options.rootDir, ".gitignore");
 
-      const gitignoreComment = "# @schemasset/nuxt - auto-generated asset files - DO NOT EDIT THIS SECTION MANUALLY";
-      const gitignoreEndComment = "# End of @schemasset/nuxt auto-generated entries";
-
       let relativeAssetFiles: string[] = [];
       try {
         const sourceFiles = collectFilesRecursively(subdirPath);
@@ -248,31 +245,7 @@ export default defineNuxtModule<ModuleOptions>({
         ? relativeAssetFiles.join("\n")
         : `# No files found in source directory\n${gitignorePathPrefix}${relativeToPublic ? `/${relativeToPublic}` : ""}/*`;
 
-      const gitignoreBlock = `\n${gitignoreComment}\n${gitignoreEntries}\n${gitignoreEndComment}\n`;
-
-      if (existsSync(gitignorePath)) {
-        const gitignore = readFileSync(gitignorePath, "utf-8");
-
-        if (gitignore.includes(gitignoreComment) && gitignore.includes(gitignoreEndComment)) {
-          const startIndex = gitignore.indexOf(gitignoreComment);
-          const endIndex = gitignore.indexOf(gitignoreEndComment) + gitignoreEndComment.length;
-
-          const beforeSection = gitignore.substring(0, startIndex);
-          const afterSection = gitignore.substring(endIndex);
-
-          const newContent = `${beforeSection + gitignoreComment}\n${gitignoreEntries}\n${gitignoreEndComment}${afterSection}`;
-          writeFileSync(gitignorePath, newContent);
-          logger.info(`Updated existing @schemasset/nuxt section in .gitignore with actual file paths`);
-        }
-        else {
-          appendFileSync(gitignorePath, gitignoreBlock);
-          logger.info(`Added @schemasset/nuxt section to .gitignore with actual file paths`);
-        }
-      }
-      else {
-        writeFileSync(gitignorePath, gitignoreBlock);
-        logger.info(`Created .gitignore with @schemasset/nuxt section and actual file paths`);
-      }
+      updateGitignore(gitignorePath, gitignoreEntries);
 
       logger.info(`Copying assets from '${subdirPath}' to '${targetDir}'`);
       copyDirectory(subdirPath, targetDir);
@@ -444,6 +417,78 @@ export default defineNuxtModule<ModuleOptions>({
       }
       catch (error) {
         logger.error(`Error cleaning up .gitignore: ${error instanceof Error ? error.message : String(error)}`);
+      }
+    }
+
+    /**
+     * Handle gitignore file update with careful line break management
+     */
+    function updateGitignore(gitignorePath: string, gitignoreEntries: string): void {
+      const gitignoreComment = "# @schemasset/nuxt - auto-generated asset files - DO NOT EDIT THIS SECTION MANUALLY";
+      const gitignoreEndComment = "# End of @schemasset/nuxt auto-generated entries";
+
+      // Content block without extra newlines
+      const contentBlock = `${gitignoreComment}\n${gitignoreEntries}\n${gitignoreEndComment}`;
+
+      try {
+        // Create new file if it doesn't exist
+        if (!existsSync(gitignorePath)) {
+          writeFileSync(gitignorePath, contentBlock);
+          logger.info(`Created .gitignore with @schemasset/nuxt section and actual file paths`);
+          return;
+        }
+
+        // File exists - read it
+        let gitignoreContent = readFileSync(gitignorePath, "utf-8");
+
+        // Handle the existing section if it exists
+        if (gitignoreContent.includes(gitignoreComment) && gitignoreContent.includes(gitignoreEndComment)) {
+          // Extract section indices
+          const startIdx = gitignoreContent.indexOf(gitignoreComment);
+          const endIdx = gitignoreContent.indexOf(gitignoreEndComment) + gitignoreEndComment.length;
+
+          // Split content to parts before and after our section
+          let beforeSection = gitignoreContent.substring(0, startIdx);
+          let afterSection = gitignoreContent.substring(endIdx);
+
+          // Trim trailing newlines from beforeSection
+          beforeSection = beforeSection.replace(/\n+$/, "");
+
+          // Trim leading newlines from afterSection
+          afterSection = afterSection.replace(/^\n+/, "");
+
+          // Build new content with exactly ONE newline between sections
+          let newContent = "";
+
+          if (beforeSection) {
+            newContent += `${beforeSection}\n\n`;
+          }
+
+          newContent += contentBlock;
+
+          if (afterSection) {
+            newContent += `\n\n${afterSection}`;
+          }
+
+          writeFileSync(gitignorePath, newContent);
+          logger.info(`Updated existing @schemasset/nuxt section in .gitignore with actual file paths`);
+          return;
+        }
+
+        // No existing section - append to file
+        // First trim the existing content
+        gitignoreContent = gitignoreContent.trimEnd();
+
+        // Add exactly ONE blank line if the file has content
+        const newContent = gitignoreContent
+          ? `${gitignoreContent}\n\n${contentBlock}`
+          : contentBlock;
+
+        writeFileSync(gitignorePath, newContent);
+        logger.info(`Added @schemasset/nuxt section to .gitignore with actual file paths`);
+      }
+      catch (error) {
+        logger.error(`Error updating .gitignore: ${error instanceof Error ? error.message : String(error)}`);
       }
     }
   },
