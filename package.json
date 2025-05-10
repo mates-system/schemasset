@@ -1,7 +1,7 @@
 {
   "name": "schemasset",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "packageManager": "pnpm@10.9.0",
   "description": "A schema-based tool for asset file validation",
   "author": "ubugeeei",
@@ -44,6 +44,7 @@
     "@types/node": "^22.15.16",
     "eslint": "^9.26.0",
     "tsdown": "^0.11.1",
-    "tsx": "^4.19.4"
+    "tsx": "^4.19.4",
+    "unbuild": "^3.5.0"
   }
 }

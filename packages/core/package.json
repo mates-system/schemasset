@@ -1,7 +1,7 @@
 {
   "name": "@schemasset/core",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Core functionality for schemasset - schema-based asset file validation",
   "author": "ubugeeei",
   "license": "MIT",
@@ -24,12 +24,12 @@
     ".": {
       "import": {
         "types": "./dist/index.d.ts",
-        "default": "./dist/index.mjs"
+        "default": "./dist/index.js"
       }
     }
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
@@ -37,7 +37,7 @@
   "scripts": {
     "build": "tsdown"
   },
-  "dependencies": {
+  "devDependencies": {
     "@schemasset/schema": "workspace:*",
     "@types/js-yaml": "^4.0.9",
     "fast-glob": "^3.3.3",

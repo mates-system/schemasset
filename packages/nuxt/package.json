@@ -1,7 +1,7 @@
 {
   "name": "@schemasset/nuxt",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Nuxt module for schemasset - schema-based asset file validation",
   "author": "Mates System",
   "license": "MIT",
@@ -24,29 +24,30 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/types.d.ts",
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
     }
   },
-  "main": "./dist/module.cjs",
-  "module": "./dist/module.mjs",
-  "types": "./dist/types.d.ts",
-  "files": [
-    "dist"
-  ],
+  "main": "./dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ]
+    }
+  },
   "scripts": {
-    "build": "tsdown"
+    "build": "nuxt-module-build build"
   },
   "peerDependencies": {
     "nuxt": "^3.0.0"
   },
-  "dependencies": {
+  "devDependencies": {
+    "@nuxt/kit": "^3.11.1",
+    "@nuxt/module-builder": "^1.0.1",
     "@schemasset/core": "workspace:*",
+    "@schemasset/utils": "workspace:*",
     "defu": "^6.1.4",
     "fast-glob": "^3.3.3"
-  },
-  "devDependencies": {
-    "@nuxt/kit": "^3.11.1"
   }
 }
