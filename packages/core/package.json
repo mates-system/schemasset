@@ -1,7 +1,7 @@
 {
   "name": "@schemasset/core",
   "type": "module",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Core functionality for schemasset - schema-based asset file validation",
   "author": "ubugeeei",
   "license": "MIT",
