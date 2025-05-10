@@ -10,7 +10,7 @@ import { check, loadFiles, parse } from "@schemasset/core";
 import { createLogger } from "@schemasset/utils";
 
 // Create a logger with a specific prefix for this module
-const logger = createLogger({ prefix: "@schemasset/nuxt" });
+const _logger = createLogger({ prefix: "@schemasset/nuxt" });
 
 export interface ModuleOptions {
   /**
@@ -47,8 +47,17 @@ export interface ModuleOptions {
 
   /**
    * Whether to fail on error
+   *
+   * @default true
    */
   failOnError?: boolean;
+
+  /**
+   * Whether to show verbose logs
+   *
+   * @default false
+   */
+  verbose?: boolean;
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -62,11 +71,31 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     checkOnBuild: true,
     failOnError: true,
+    verbose: false,
     build: {
       outDir: "assets",
     },
   },
   setup(options, nuxt) {
+    // Create log functions that respect the verbose setting
+    const logger = {
+      info: (message: string) => {
+        if (options.verbose)
+          _logger.info(message);
+      },
+      log: (message: string) => {
+        if (options.verbose)
+          _logger.log(message);
+      },
+      success: (message: string) => {
+        if (options.verbose)
+          _logger.success(message);
+      },
+      // Always show warnings and errors
+      warn: _logger.warn,
+      error: _logger.error,
+    };
+
     logger.info("Setting up schema asset validation");
 
     if (options.checkOnBuild) {
@@ -160,7 +189,7 @@ export default defineNuxtModule<ModuleOptions>({
         // Log diagnostic information
         for (const diagnostic of checkResult.diagnostics) {
           const logMethod = diagnostic.severity === "error" ? logger.error : logger.warn;
-          logMethod.call(logger, `[${diagnostic.code}] ${diagnostic.message}`);
+          logMethod(`[${diagnostic.code}] ${diagnostic.message}`);
         }
 
         if (checkResult.hasError) {

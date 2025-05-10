@@ -62,6 +62,9 @@ export default defineNuxtConfig({
     // Whether to fail on error (default: true)
     failOnError: true,
 
+    // Whether to show detailed logs (default: false)
+    verbose: false,
+
     // Build settings
     build: {
       // Subdirectory to publish
@@ -82,6 +85,7 @@ export default defineNuxtConfig({
 | `schemaPath` | `String` | `undefined` | Path to schema file |
 | `checkOnBuild` | `Boolean` | `true` | Whether to validate assets during build |
 | `failOnError` | `Boolean` | `true` | Whether to fail the build on error |
+| `verbose` | `Boolean` | `false` | Whether to show detailed logs during validation and build |
 | `build.subdir` | `String` | `undefined` | Subdirectory of assets to publish |
 | `build.outDir` | `String` | `'assets'` | Output directory for public assets |
 
