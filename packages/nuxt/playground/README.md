@@ -42,7 +42,6 @@ The playground uses this configuration in `nuxt.config.ts`:
 export default defineNuxtConfig({
   modules: ["@schemasset/nuxt"],
   schemasset: {
-    verbose: true,
     schema: {
       targetDir: "public-dyn",
       files: [
@@ -53,8 +52,8 @@ export default defineNuxtConfig({
       ],
     },
     build: {
-      subdir: "public", // Initial domain
-      outDir: "static-assets",
+      subdir: "domain-a",
+      outDir: "public",
     },
     failOnError: false,
   }
@@ -71,14 +70,11 @@ export default defineNuxtConfig({
 
 ```
 playground/
-├── assets/         # Source assets directory
+├── public-dyn/     # Source assets directory
 │   ├── domain-a/   # Assets for Domain A
 │   ├── domain-b/   # Assets for Domain B
 │   └── domain-c/   # Assets for Domain C
 ├── public/         # Public directory
-│   └── static-assets/ # Generated assets directory
-├── server/         # Server API routes
-│   └── api/        # API endpoints
 ├── app.vue         # Main application component
 ├── nuxt.config.ts  # Nuxt configuration
 ├── package.json    # Dependencies
