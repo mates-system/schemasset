@@ -45,11 +45,11 @@ export default defineNuxtConfig({
   schemasset: {
     // Schema definition (inline)
     schema: {
-      targetDir: "assets",
+      targetDir: "public-dyn",
       files: [
-        { pattern: "**/favicon.ico", required: true },
-        { pattern: "**/logo.png", required: true },
-        { pattern: "**/og-image.png", required: false }
+        { pattern: "**/favicon.ico" },
+        { pattern: "**/logo.png" },
+        { pattern: "**/og-image.png", optional: true }
       ]
     },
 
@@ -71,7 +71,7 @@ export default defineNuxtConfig({
       subdir: "domain-a",
 
       // Output directory (default: 'assets')
-      outDir: "assets"
+      outDir: "public"
     }
   }
 });
@@ -113,16 +113,16 @@ export default defineNuxtConfig({
 
   schemasset: {
     schema: {
-      targetDir: "assets",
+      targetDir: "public-dyn",
       files: [
-        { pattern: "**/favicon.ico", required: true },
-        { pattern: "**/logo.png", required: true }
+        { pattern: "**/favicon.ico" },
+        { pattern: "**/logo.png" }
       ]
     },
     build: {
       // Can be dynamically set based on environment variables or runtime config
       subdir: process.env.DOMAIN || "domain-a",
-      outDir: "assets"
+      outDir: "public"
     }
   }
 });

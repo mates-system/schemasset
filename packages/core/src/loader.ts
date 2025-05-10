@@ -27,7 +27,7 @@ export async function loadFiles(options: LoaderOptions): Promise<LoaderResult[]>
       return {
         pattern: file.pattern,
         files: matches.map(f => relative(baseDir, resolve(baseDir, f))),
-        optional: file.optional,
+        optional: file.optional ?? false,
       };
     }),
   );

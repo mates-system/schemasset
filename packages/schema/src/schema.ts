@@ -15,12 +15,12 @@ z.setErrorMap((issue, ctx) => {
 
 export const schemaDefFile: z.ZodObject<{
   pattern: z.ZodString;
-  optional: z.ZodDefault<z.ZodBoolean>;
+  optional: z.ZodOptional<z.ZodBoolean>;
 }> = z.object({
   /** target files as glob pattern */
   pattern: z.string().min(1, "Pattern must not be empty"),
   /** @default false */
-  optional: z.boolean().default(false),
+  optional: z.boolean().optional(),
 }).strict();
 
 export const schemaDef: z.ZodObject<{
