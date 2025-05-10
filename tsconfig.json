@@ -3,6 +3,7 @@
     "target": "ESNext",
     "lib": ["ESNext", "DOM"],
     "baseUrl": ".",
+    "module": "ESNext",
     "moduleResolution": "node",
     "paths": {
       "@schemasset/*": ["packages/*/src"]

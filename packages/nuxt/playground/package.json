@@ -1,0 +1,15 @@
+{
+  "name": "schemasset-nuxt-playground",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "postinstall": "nuxi prepare",
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "start": "node .output/server/index.mjs"
+  },
+  "devDependencies": {
+    "@schemasset/nuxt": "workspace:*",
+    "nuxt": "^3.11.1"
+  }
+}

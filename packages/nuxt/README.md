@@ -92,8 +92,13 @@ export default defineNuxtConfig({
 ## How It Works
 
 1. **Validation Process**: Asset validation is executed before build (`build:before`) and before Nitro build (`nitro:build:before`)
-2. **Development Mode**: In development mode, only basic validation is performed
-3. **Public Configuration**: If `build.subdir` is set, that subdirectory is published at the URL path specified by `build.outDir`
+2. **Development Mode**: In development mode, the module serves assets from your configured subdirectory using a virtual server middleware
+3. **Production Mode**: In production, assets are configured as public assets in Nitro
+4. **Public Directory Support**: If assets are located within Nuxt's public directory, paths are automatically adjusted
+
+When a `build.subdir` is specified, the module will:
+- In production: Configure those assets to be available under the specified `build.outDir` URL path
+- In development: Set up a virtual server middleware that handles 404s and serves assets from that directory under the same URL structure
 
 ## Examples
 
