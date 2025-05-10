@@ -2,7 +2,7 @@ import type { CheckResult } from "@schemasset/core";
 import type { SchemaDef } from "@schemasset/schema";
 
 import { existsSync } from "node:fs";
-import { resolve } from "node:path";
+import { relative, resolve } from "node:path";
 import process from "node:process";
 
 import { defineNuxtModule } from "@nuxt/kit";
@@ -101,14 +101,27 @@ export default defineNuxtModule<ModuleOptions>({
             logger.warn(`Subdirectory to process for build not found: ${subdirPath}. Skipping asset copying for this path.`);
             return;
           }
-          logger.info(`Configuring assets from '${subdirPath}' to be served at '/${options.build.outDir}'`);
-          nitro.options.publicAssets.push({
-            dir: subdirPath,
-            baseURL: options.build.outDir,
-            maxAge: 0,
-          });
 
-          logger.success(`Assets from subdirectory '${options.build.subdir}' will be available under '/${options.build.outDir}'`);
+          // Check if targetDir starts with public directory
+          const publicDir = resolve(nuxt.options.rootDir, "public");
+          let dir = subdirPath;
+          let baseURL = options.build.outDir;
+
+          // If the subdirPath is within the public directory, adjust the path and baseURL
+          if (subdirPath.startsWith(publicDir)) {
+            const relativePath = relative(publicDir, subdirPath);
+            logger.info(`Detected path inside public directory, adjusting path: ${relativePath}`);
+            dir = subdirPath;
+            baseURL = relativePath || options.build.outDir;
+            logger.info(`Configuring assets from '${dir}' to be served directly from public at '/${baseURL}'`);
+          }
+          else {
+            logger.info(`Configuring assets from '${dir}' to be served at '/${baseURL}'`);
+          }
+
+          nitro.options.publicAssets.push({ dir, baseURL, maxAge: 0 });
+
+          logger.success(`Assets from subdirectory '${options.build.subdir}' will be available under '/${baseURL}'`);
         }
         catch (error) {
           logger.error(`Error preparing asset processing: ${error instanceof Error ? error.message : String(error)}`);
