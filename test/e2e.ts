@@ -6,7 +6,7 @@ import { promises as fs } from "node:fs";
 import { dirname, join } from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
-import { createLogger } from "@schemasset/utils";
+import { createLogger } from "../packages/utils/dist/index.js";
 
 // Create a logger for testing
 const logger = createLogger({ prefix: "test" });
