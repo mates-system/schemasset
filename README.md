@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="https://github.com/mates-system/schemasset/blob/main/assets/schemasset.png?raw=true" alt="schemasset logo" height="250" width="250">
+  <img src="https://github.com/mates-system/schemasset/blob/main/assets/schemasset.png?raw=true" alt="schemasset logo" height="150" width="150">
 
 # schemasset
 
