@@ -1,10 +1,9 @@
 import type { CheckResult } from "@schemasset/core";
 import type { SchemaDef } from "@schemasset/schema";
 
-import { appendFileSync, existsSync, readdirSync, readFileSync, writeFileSync, unlinkSync, statSync, rmdirSync } from "node:fs";
+import { appendFileSync, existsSync, readdirSync, readFileSync, rmdirSync, statSync, unlinkSync, writeFileSync } from "node:fs";
 import { basename, join, relative, resolve } from "node:path";
 import process from "node:process";
-
 
 import { defineNuxtModule } from "@nuxt/kit";
 import { check, loadFiles, parse } from "@schemasset/core";
@@ -99,7 +98,7 @@ export default defineNuxtModule<ModuleOptions>({
     };
 
     logger.info("Setting up schema asset validation");
-    
+
     // Cleanup previously generated files on module initialization
     cleanupGeneratedFiles(nuxt.options.rootDir);
 
@@ -149,55 +148,59 @@ export default defineNuxtModule<ModuleOptions>({
 
       // Check if targetDir starts with "public"
       const isPublicPath = schema.targetDir.startsWith("public/") || schema.targetDir.startsWith("./public/") || schema.targetDir === "public";
-      
+
       // Get the output directory name from options
       const outDir = options.build.outDir;
-      
+
       // Special case: when outDir itself is named "public" (avoid duplicate public directories)
       const isOutDirNamedPublic = outDir === "public";
-      
+
       let targetDir: string;
-      
+
       if (isPublicPath) {
         // For paths starting with "public"
         // Extract the part after "public/"
-        const publicSuffix = schema.targetDir === "public" 
-          ? "" 
+        const publicSuffix = schema.targetDir === "public"
+          ? ""
           : schema.targetDir.replace(/^\.?\/?(public)\/?/, "");
-        
+
         if (isOutDirNamedPublic) {
           // When outDir="public", avoid creating /public/public
           targetDir = resolve(nuxt.options.rootDir, "public", publicSuffix);
           logger.info(`Special case: outDir is named "public" and targetDir starts with "public". Using target: ${targetDir}`);
-        } else {
+        }
+        else {
           // Normal case with public path
           targetDir = resolve(nuxt.options.rootDir, "public", publicSuffix, outDir);
           logger.info(`Public path detected: ${schema.targetDir}, using target: ${targetDir}`);
         }
-      } else {
+      }
+      else {
         // For non-public paths
         if (isOutDirNamedPublic) {
           // When outDir="public", avoid creating /public/public
           targetDir = resolve(nuxt.options.rootDir, "public");
           logger.info(`Special case: outDir is named "public". Using target: ${targetDir}`);
-        } else {
+        }
+        else {
           // Normal case
           targetDir = resolve(nuxt.options.rootDir, "public", outDir);
         }
       }
-      
+
       // Path prefix for .gitignore entries
       const gitignorePathPrefix = "public";
-      
+
       // Calculate relative path for gitignore entries
       let relativeToPublic: string;
-      
+
       if (isOutDirNamedPublic) {
         // When outDir is "public", use simpler paths for gitignore
-        relativeToPublic = isPublicPath && schema.targetDir !== "public" 
+        relativeToPublic = isPublicPath && schema.targetDir !== "public"
           ? schema.targetDir.replace(/^\.?\/?(public)\/?/, "")
           : "";
-      } else {
+      }
+      else {
         // Normal path calculation
         relativeToPublic = isPublicPath
           ? (schema.targetDir === "public" ? outDir : resolve(schema.targetDir.replace(/^\.?\/?(public)\/?/, ""), outDir))
@@ -215,20 +218,20 @@ export default defineNuxtModule<ModuleOptions>({
 
         relativeAssetFiles = sourceFiles.map((file) => {
           const dirname = file.split("/").slice(0, -1).join("/");
-          
+
           // Fix double slash issue by properly joining paths
           let gitignorePath = gitignorePathPrefix;
-          
+
           // Only add slash if relativeToPublic is not empty
           if (relativeToPublic) {
             gitignorePath += `/${relativeToPublic}`;
           }
-          
+
           // Add dirname if it exists
           if (dirname) {
             gitignorePath += `/${dirname}`;
           }
-          
+
           return `${gitignorePath}/${basename(file)}`;
         });
 
@@ -243,7 +246,7 @@ export default defineNuxtModule<ModuleOptions>({
       // Also fix the fallback entry to avoid double slashes
       const gitignoreEntries = relativeAssetFiles.length > 0
         ? relativeAssetFiles.join("\n")
-        : `# No files found in source directory\n${gitignorePathPrefix}${relativeToPublic ? `/${relativeToPublic}` : ''}/*`;
+        : `# No files found in source directory\n${gitignorePathPrefix}${relativeToPublic ? `/${relativeToPublic}` : ""}/*`;
 
       const gitignoreBlock = `\n${gitignoreComment}\n${gitignoreEntries}\n${gitignoreEndComment}\n`;
 
@@ -331,80 +334,83 @@ export default defineNuxtModule<ModuleOptions>({
         if (!existsSync(path)) {
           return;
         }
-        
+
         const stats = statSync(path);
         if (stats.isFile()) {
           unlinkSync(path);
-        } else if (stats.isDirectory()) {
+        }
+        else if (stats.isDirectory()) {
           const files = readdirSync(path);
           for (const file of files) {
             deleteFileOrDirectory(join(path, file));
           }
           rmdirSync(path);
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error(`Error deleting ${path}:`, error);
       }
     }
-    
+
     /**
      * Extract auto-generated file patterns from .gitignore
      */
-    function extractAutoGeneratedPaths(gitignorePath: string): { 
-      patterns: string[],
-      startIndex: number,
-      endIndex: number,
-      exists: boolean
+    function extractAutoGeneratedPaths(gitignorePath: string): {
+      patterns: string[];
+      startIndex: number;
+      endIndex: number;
+      exists: boolean;
     } {
       const gitignoreComment = "# @schemasset/nuxt - auto-generated asset files - DO NOT EDIT THIS SECTION MANUALLY";
       const gitignoreEndComment = "# End of @schemasset/nuxt auto-generated entries";
       const defaultResult = { patterns: [], startIndex: -1, endIndex: -1, exists: false };
-      
+
       if (!existsSync(gitignorePath)) {
         return defaultResult;
       }
-      
+
       try {
         const gitignore = readFileSync(gitignorePath, "utf-8");
-        
+
         if (!gitignore.includes(gitignoreComment) || !gitignore.includes(gitignoreEndComment)) {
           return defaultResult;
         }
-        
+
         const startIndex = gitignore.indexOf(gitignoreComment);
         const endIndex = gitignore.indexOf(gitignoreEndComment) + gitignoreEndComment.length;
-        
+
         // Extract the content between markers
         const sectionContent = gitignore.substring(
           startIndex + gitignoreComment.length,
-          gitignore.indexOf(gitignoreEndComment)
+          gitignore.indexOf(gitignoreEndComment),
         ).trim();
-        
+
         // Extract actual paths, skipping comments and empty lines
         const patterns = sectionContent.split("\n")
           .map(line => line.trim())
           .filter(line => line && !line.startsWith("#"));
-          
+
         return {
           patterns,
           startIndex,
           endIndex,
-          exists: true
+          exists: true,
         };
-      } catch (error) {
+      }
+      catch (error) {
         console.error(`Error extracting paths from .gitignore:`, error);
         return defaultResult;
       }
     }
-    
+
     function collectFilesRecursively(dir: string, basePath: string = dir): string[] {
       let results: string[] = [];
       const entries = readdirSync(dir, { withFileTypes: true });
-    
+
       for (const entry of entries) {
         const fullPath = join(dir, entry.name);
         const relativePath = relative(basePath, fullPath);
-    
+
         if (entry.isDirectory()) {
           results = results.concat(collectFilesRecursively(fullPath, basePath));
         }
@@ -412,36 +418,34 @@ export default defineNuxtModule<ModuleOptions>({
           results.push(relativePath);
         }
       }
-    
+
       return results;
     }
-    
-    
+
     function cleanupGeneratedFiles(rootDir: string): void {
       const gitignorePath = resolve(rootDir, ".gitignore");
       const autoGeneratedPaths = extractAutoGeneratedPaths(gitignorePath);
-    
+
       if (!autoGeneratedPaths.exists) {
         logger.info("No auto-generated files found to clean up");
         return;
       }
-    
+
       for (const pattern of autoGeneratedPaths.patterns) {
         const fullPath = resolve(rootDir, pattern);
         deleteFileOrDirectory(fullPath);
         logger.info(`Deleted auto-generated file or directory: ${fullPath}`);
       }
-    
+
       try {
         const gitignore = readFileSync(gitignorePath, "utf-8");
         const newContent = gitignore.substring(0, autoGeneratedPaths.startIndex) + gitignore.substring(autoGeneratedPaths.endIndex);
         writeFileSync(gitignorePath, newContent);
         logger.info("Cleaned up auto-generated entries in .gitignore");
-      } catch (error) {
+      }
+      catch (error) {
         logger.error(`Error cleaning up .gitignore: ${error instanceof Error ? error.message : String(error)}`);
       }
-    }    
+    }
   },
 });
-
-

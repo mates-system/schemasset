@@ -39,23 +39,26 @@ The playground will be available at `http://localhost:3000`.
 The playground uses this configuration in `nuxt.config.ts`:
 
 ```ts
-schemasset: {
-  verbose: true,
-  schema: {
-    targetDir: 'public-dyn',
-    files: [
-      { pattern: "**/favicon.ico" },
-      { pattern: "**/logo.png" },
-      { pattern: "**/og-image.png" },
-      { pattern: "**/header-logo.png", optional: true }
-    ]
-  },
-  build: {
-    subdir: 'public', // Initial domain
-    outDir: 'static-assets'
-  },
-  failOnError: false
-}
+export default defineNuxtConfig({
+  modules: ["@schemasset/nuxt"],
+  schemasset: {
+    verbose: true,
+    schema: {
+      targetDir: 'public-dyn',
+      files: [
+        { pattern: "**/favicon.ico" },
+        { pattern: "**/logo.png" },
+        { pattern: "**/og-image.png" },
+        { pattern: "**/header-logo.png", optional: true }
+      ],
+    },
+    build: {
+      subdir: 'public', // Initial domain
+      outDir: 'static-assets',
+    },
+    failOnError: false,
+  }
+});
 ```
 
 ## Module Features Demo
