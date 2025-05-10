@@ -6,6 +6,7 @@ import { promises as fs } from "node:fs";
 import { dirname, join } from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
+// eslint-disable-next-line antfu/no-import-dist
 import { createLogger } from "../packages/utils/dist/index.js";
 
 // Create a logger for testing

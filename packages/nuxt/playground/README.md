@@ -44,7 +44,7 @@ export default defineNuxtConfig({
   schemasset: {
     verbose: true,
     schema: {
-      targetDir: 'public-dyn',
+      targetDir: "public-dyn",
       files: [
         { pattern: "**/favicon.ico" },
         { pattern: "**/logo.png" },
@@ -53,8 +53,8 @@ export default defineNuxtConfig({
       ],
     },
     build: {
-      subdir: 'public', // Initial domain
-      outDir: 'static-assets',
+      subdir: "public", // Initial domain
+      outDir: "static-assets",
     },
     failOnError: false,
   }
