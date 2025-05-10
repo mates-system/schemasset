@@ -15,7 +15,7 @@ export default defineNuxtConfig({
       subdir: "domain-a",
       outDir: "public",
     },
-    failOnError: false,
+    failOnError: true,
   },
   devtools: { enabled: true },
 });

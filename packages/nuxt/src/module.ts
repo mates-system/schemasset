@@ -321,8 +321,7 @@ export default defineNuxtModule<ModuleOptions>({
         logger.error(`Schema validation failed, but continuing with asset copying`);
         // Don't exit or throw error, continue with asset copying
         if (process.env.NODE_ENV === "production" && options.failOnError) {
-          logger.warn("Production build with validation errors. Set failOnError: false to suppress this warning.");
-          // Still don't exit, allow copying assets
+          process.exit(1);
         }
       }
 
