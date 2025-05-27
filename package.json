@@ -43,7 +43,7 @@
     "@schemasset/utils": "workspace:*",
     "@types/node": "^22.15.16",
     "eslint": "^9.26.0",
-    "tsdown": "^0.11.1",
+    "tsdown": "^0.12.3",
     "tsx": "^4.19.4",
     "unbuild": "^3.5.0"
   }
