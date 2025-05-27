@@ -21,7 +21,7 @@
     "build": "tsdown"
   },
   "devDependencies": {
-    "@oxc-project/runtime": "^0.69.0",
+    "@oxc-project/runtime": "^0.72.0",
     "tsdown": "^0.12.3",
     "typescript": "^5.2.2"
   }
