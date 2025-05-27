@@ -100,8 +100,8 @@ importers:
   packages/utils:
     devDependencies:
       '@oxc-project/runtime':
-        specifier: ^0.69.0
-        version: 0.69.0
+        specifier: ^0.72.0
+        version: 0.72.0
       tsdown:
         specifier: ^0.12.3
         version: 0.12.3(publint@0.3.12)(typescript@5.8.3)
@@ -919,12 +919,12 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@oxc-project/runtime@0.69.0':
-    resolution: {integrity: sha512-v4WCEJEktTuWY+DEaR1XNITKZD9S0BCyoBeCTyHUH3ppgrb4IlMeDTkwNyfvaIXBFfhlCX4DI445TJ4cqiK0FA==}
-    engines: {node: '>=6.9.0'}
-
   '@oxc-project/runtime@0.71.0':
     resolution: {integrity: sha512-QwoF5WUXIGFQ+hSxWEib4U/aeLoiDN9JlP18MnBgx9LLPRDfn1iICtcow7Jgey6HLH4XFceWXQD5WBJ39dyJcw==}
+    engines: {node: '>=6.9.0'}
+
+  '@oxc-project/runtime@0.72.0':
+    resolution: {integrity: sha512-HSL4xYOb6/ntJqBFPmtTABdtk4tBbyTDuPi/I9VSmJcp9HVZSOdCDZxxeVXu0QeikjZyFbuNRUVugvoGfC3qFw==}
     engines: {node: '>=6.9.0'}
 
   '@oxc-project/types@0.68.1':
@@ -6176,9 +6176,9 @@ snapshots:
   '@oxc-parser/binding-win32-x64-msvc@0.68.1':
     optional: true
 
-  '@oxc-project/runtime@0.69.0': {}
-
   '@oxc-project/runtime@0.71.0': {}
+
+  '@oxc-project/runtime@0.72.0': {}
 
   '@oxc-project/types@0.68.1': {}
 
