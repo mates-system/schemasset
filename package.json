@@ -41,7 +41,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.0",
     "@schemasset/utils": "workspace:*",
-    "@types/node": "^22.15.16",
+    "@types/node": "^24.0.3",
     "eslint": "^9.26.0",
     "tsdown": "^0.12.3",
     "tsx": "^4.19.4",
